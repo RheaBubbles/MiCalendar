@@ -2,11 +2,11 @@ let btn = document.getElementById("btn");
 
 btn.onclick = (element) => {
   chrome.tabs.executeScript({
-    file: 'contentScript.js'
+    file: 'parses/contentScript.js'
   });
 
   // chrome.tabs.create({
-  //   url: chrome.runtime.getURL('panel.html'),
+  //   url: chrome.runtime.getURL('panel/panel.html'),
   //   active: true
   // });
   // get info from page
