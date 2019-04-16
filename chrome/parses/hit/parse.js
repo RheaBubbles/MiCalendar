@@ -1,4 +1,4 @@
-console.log("Inject codes.");
+// console.log("Inject codes.");
 
 if (typeof iframe == "undefined") {
   var iframe = {};
