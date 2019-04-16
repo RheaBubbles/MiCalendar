@@ -1,0 +1,28 @@
+#container {
+  width: 256px;
+  height: max-content;
+  text-align: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+#logo {
+  width: 96px;
+  height: 96px;
+}
+p {
+  font-size: 14px;
+}
+a {
+  color: rgb(232, 18, 36);
+}
+#btn {
+  margin: 0 auto;
+  width: 200px;
+  height: 36px;
+  font-size: 16px;
+  line-height: 36px;
+  color: white;
+  background: rgb(232, 18, 36);
+  border-radius: 4px;
+  cursor: pointer;
+}
