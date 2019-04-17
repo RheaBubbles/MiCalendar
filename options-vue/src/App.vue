@@ -58,13 +58,13 @@ export default {
     let that = this;
     if(typeof chrome.storage != "undefined") {
       // in chrome
-      chrome.storage.sync.get(['schools'], function(result) {
-        console.log(result.schools);
-        that.$data.slist =  result.schools;
-        if(that.$data.slist.length != 0) {
-          console.log("Success read.");
+      chrome.storage.local.get(['schools'], function(result) {
+        if(typeof result.schools == "undefined") {
+          chrome.runtime.sendMessage("initSchools", function(response) {
+            that.$data.slist = response;
+          });
         } else {
-          console.log("Error in read school list.")
+          that.$data.slist = result.schools;
         }
       });
     } else {
@@ -107,7 +107,7 @@ export default {
       if(this.chosen) {
         if(typeof chrome.storage != "undefined") {
           // in chrome
-          chrome.storage.sync.set({'school': this.chosen}, function() {
+          chrome.storage.local.set({'school': this.chosen}, function() {
             // console.log('Value is set to ' + value);
           });
         } else {
