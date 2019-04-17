@@ -3,13 +3,16 @@ options-vue/node_modules/
 options-vue/options/
 options-vue/npm-debug.log
 options-vue/yarn-error.log
-
 panel-vue/.DS_Store
 panel-vue/node_modules/
 panel-vue/panel/
 panel-vue/npm-debug.log
 panel-vue/yarn-error.log
-
+github-pages-vue/.DS_Store
+github-pages-vue/node_modules/
+github-pages-vue/dist/
+github-pages-vue/npm-debug.log
+github-pages-vue/yarn-error.log
 
 # Editor directories and files
 .idea
