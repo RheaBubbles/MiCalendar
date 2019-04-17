@@ -1,5 +1,5 @@
 <template>
-  <div id="box">
+  <div id="box" v-on:click="$emit('choose', school)">
     {{ school.name }}
   </div>
 </template>
@@ -7,11 +7,7 @@
 <script>
 export default {
   name: 'School',
-  props: ['school'],
-  data () {
-    return {
-    }
-  }
+  props: ['school']
 }
 </script>
 

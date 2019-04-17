@@ -2,7 +2,7 @@
   "name": "MiCalendar",
   "version": "0.0.1",
   "description": "Still in Developing.",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "browser_action" : {
     "default_popup": "popup/popup.html",
     "default_icon": {

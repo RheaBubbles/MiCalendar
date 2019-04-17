@@ -13,8 +13,11 @@
             <img src="./assets/icon32.png">
             <div>请在右侧选择您的学校</div>
           </div>
-          <div id="school"></div>
-          <div id="btn">确认</div>
+          <div id="school">{{ chosen?chosen.name:"" }}</div>
+          <div
+            id="btn"
+            v-on:click="confirm"
+            v-bind:class="{'no-choose':!chosen}">确认</div>
         </div>
         <div class="col">
           <input
@@ -27,6 +30,7 @@
               v-for="school in filterList"
               v-bind:key="school.name"
               v-bind:school="school"
+              v-on:choose="choose"
               />
           </div>
         </div>
@@ -45,7 +49,8 @@ export default {
   data () {
     return {
       filter: "",
-      slist: []
+      slist: [],
+      chosen: null
     }
   },
   mounted: function() {
@@ -90,6 +95,25 @@ export default {
           }
         }
         return flist;
+      }
+    }
+  },
+  methods: {
+    choose(school) {
+      // console.log(school);
+      this.chosen = school;
+    },
+    confirm() {
+      if(this.chosen) {
+        if(typeof chrome.storage != "undefined") {
+          // in chrome
+          chrome.storage.sync.set({'school': this.chosen}, function() {
+            // console.log('Value is set to ' + value);
+          });
+        } else {
+          // in dev
+          console.log('Dev ' + this.chosen);
+        }
       }
     }
   }
@@ -177,12 +201,14 @@ export default {
 }
 
 #school {
-  width: 100%;
   height: 36px;
   margin-top: 12px;
   margin-bottom: 12px;
   background: rgb(250, 250, 250);
   border-radius: 4px;
+  line-height: 36px;
+  padding-left: 8px;
+  font-weight: bolder;
 }
 
 #btn {
@@ -194,6 +220,7 @@ export default {
   border-radius: 4px;
   cursor: pointer;
   background: rgb(232, 18, 36);
+  transition: all 400ms;
 }
 
 #school-list {
@@ -212,6 +239,10 @@ export default {
   outline: none;
   width: 87%;
   background-color: rgb(250, 250, 250);
+}
+
+.no-choose {
+  background: rgb(158, 158, 158) !important;
 }
 </style>
 
