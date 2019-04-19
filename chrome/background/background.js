@@ -34,13 +34,17 @@ chrome.runtime.onInstalled.addListener(
 );
 
 chrome.runtime.onMessage.addListener(
-  function(message, sender, sendResponse) {
-    if (message == "initSchools"){
+  function(request, sender, sendResponse) {
+    console.log(request);
+    if (request.msg == "initSchools"){
       chrome.storage.local.set({'schools': schools});
       sendResponse(schools);
-    } else if (message == "parseSchedule") {
-      // chrome.tabs.executeScript({
-      //   file: 'contentScript.js'
-      // });
+    } else if (request.msg == "openPanelPage") {
+      chrome.storage.local.set({'courses': request.courses }, function() {
+        chrome.tabs.create({
+          url: chrome.runtime.getURL('panel/panel.html'),
+          active: true
+        });
+      })
     }
  });

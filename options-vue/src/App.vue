@@ -60,7 +60,7 @@ export default {
       // in chrome
       chrome.storage.local.get(['schools'], function(result) {
         if(typeof result.schools == "undefined") {
-          chrome.runtime.sendMessage("initSchools", function(response) {
+          chrome.runtime.sendMessage({ msg: "initSchools" }, function(response) {
             that.$data.slist = response;
           });
         } else {
