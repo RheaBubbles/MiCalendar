@@ -23,37 +23,37 @@
           <div class="interval">1 - 2</div>
           <course
             v-for="course in startOfCourse(0)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
           <div class="interval">3 - 4</div>
           <course
             v-for="course in startOfCourse(1)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
           <div class="interval">5 - 6</div>
           <course
             v-for="course in startOfCourse(2)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
           <div class="interval">7 - 8</div>
           <course
             v-for="course in startOfCourse(3)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
           <div class="interval">9 - 10</div>
           <course
             v-for="course in startOfCourse(4)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
           <div class="interval">11 - 12</div>
           <course
             v-for="course in startOfCourse(5)"
-            v-bind:key="course.name + courses.start"
+            v-bind:key="course.name + course.start"
             v-bind:course="course"
             />
         </div>
@@ -292,3 +292,15 @@ export default {
   background: rgb(226, 226, 226);
 }
 </style>
+
+<style>
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 0px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  border-radius:0px;
+}
+</style>
+

@@ -1,29 +1,16 @@
 <template>
   <div class="card">
     <div id="title">{{ course.name }}</div>
-    <div id="desc">史先俊 G712</div>
+    <div id="desc">{{ course.teacher }} {{ course.room }}</div>
     <div class="event">
       <div class="weeks">
-        <div class="week">1</div>
-        <div class="week">2</div>
-        <div class="week">3</div>
-        <div class="week">4</div>
-        <div class="week">5</div>
-        <div class="week">6</div>
-        <div class="week">7</div>
-        <div class="week">8</div>
-        <div class="week">9</div>
-        <div class="week">10</div>
-        <div class="week">11</div>
-        <div class="week">12</div>
-        <div class="week">13</div>
-        <div class="week">14</div>
-        <div class="week">15</div>
-        <div class="week">16</div>
-        <div class="week">17</div>
-        <div class="week">18</div>
-        <div class="week">19</div>
-        <div class="week">20</div>
+        <div
+          class="week"
+          v-bind:class="{ have: have(week) }"
+          v-for="week in weeks"
+          v-bind:key="week">
+          {{ week }}
+        </div>
       </div>
     </div>
   </div>
@@ -31,7 +18,17 @@
 
 <script>
 export default {
-  props: ['course']
+  props: ['course'],
+  data() {
+    return {
+      weeks: [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 ]
+    }
+  },
+  methods: {
+    have(week) {
+      return this.course.weeks.indexOf(week) != -1;
+    }
+  }
 }
 </script>
 
