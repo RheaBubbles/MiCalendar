@@ -1,35 +1,10 @@
 <template>
   <div class="card">
-    <div id="title">汇编语言程序设计</div>
+    <div id="title">{{ course.name }}</div>
+    <div id="desc">史先俊 G712</div>
     <div class="event">
-      <div class="desc">周三 第7节-第8节 史先俊 G712</div>
       <div class="weeks">
         <div class="week">1</div>
-        <div class="week">2</div>
-        <div class="week">3</div>
-        <div class="week">4</div>
-        <div class="week">5</div>
-        <div class="week">6</div>
-        <div class="week">7</div>
-        <div class="week">8</div>
-        <!-- <div class="week">9</div>
-        <div class="week">10</div>
-        <div class="week">11</div>
-        <div class="week">12</div>
-        <div class="week">13</div>
-        <div class="week">14</div>
-        <div class="week">15</div>
-        <div class="week">16</div>
-        <div class="week">17</div>
-        <div class="week">18</div>
-        <div class="week">19</div>
-        <div class="week">20</div> -->
-      </div>
-    </div>
-    <div class="event">
-      <div class="desc">周五 第9节-第10节 史先俊 G712</div>
-      <div class="weeks">
-        <!-- <div class="week">1</div>
         <div class="week">2</div>
         <div class="week">3</div>
         <div class="week">4</div>
@@ -40,7 +15,7 @@
         <div class="week">9</div>
         <div class="week">10</div>
         <div class="week">11</div>
-        <div class="week">12</div> -->
+        <div class="week">12</div>
         <div class="week">13</div>
         <div class="week">14</div>
         <div class="week">15</div>
@@ -56,7 +31,7 @@
 
 <script>
 export default {
-  
+  props: ['course']
 }
 </script>
 
@@ -65,12 +40,9 @@ export default {
   font-size: 18px;
 }
 
-.event {
-  margin-top: 12px;
-}
-
-.event .desc {
-  color: rgb(87, 87, 87);
+#desc {
+  margin-top: 4px;
+  font-size: 16px;
 }
 
 .weeks {
@@ -88,6 +60,11 @@ export default {
   margin-right: 11px;
   border-radius: 50%;
   text-align: center;
+  color: rgb(153, 153, 153);
+  background: rgb(235, 235, 235);
+}
+
+.have {
   color: rgb(255, 255, 255);
   background: rgb(255, 18, 18);
 }

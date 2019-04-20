@@ -14,7 +14,9 @@ if(iframe.length > 0) {
   if(container.length > 0) {
     container = container[0];
     let courses = HitParser(container.children[0]);
+    // console.log(JSON.stringify(courses));
     console.log(courses);
+    window.courses = courses;
     // 通知background
     chrome.runtime.sendMessage({
       msg: "openPanelPage",
@@ -24,7 +26,7 @@ if(iframe.length > 0) {
     console.log("No Container.");
   }
 } else {
-  console.log("No iframe.");
+  console.log("No iframe element.");
 }
 
 // HitParser(table)
