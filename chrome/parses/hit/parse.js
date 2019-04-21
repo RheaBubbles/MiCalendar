@@ -20,13 +20,24 @@ if(iframe.length > 0) {
     // 通知background
     chrome.runtime.sendMessage({
       msg: "openPanelPage",
-      courses
+      courses,
+      error: ""
     });
   } else {
     console.log("No Container.");
+    chrome.runtime.sendMessage({
+      msg: "openPanelPage",
+      courses: [],
+      error: "No Container."
+    });
   }
 } else {
   console.log("No iframe element.");
+  chrome.runtime.sendMessage({
+    msg: "openPanelPage",
+    courses: [],
+    error: "No iframe element."
+  });
 }
 
 // HitParser(table)

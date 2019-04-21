@@ -2,53 +2,15 @@
   <div class="card">
     <div id="title">1-12节课程的开始时间</div>
     <div id="daily">
-      <div class="time">
-        <div>1</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>2</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>3</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>4</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>5</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>6</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>7</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>8</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>9</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>10</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>11</div>
-        <input type="text"/>
-      </div>
-      <div class="time">
-        <div>12</div>
-        <input type="text"/>
+      <div
+        class="time"
+        v-for="(value, key, index) in school.schedule_time"
+        v-bind:key="key">
+        <div>{{ key }}</div>
+        <input
+        type="text"
+        v-bind:class="{ error: !checkTime(school.schedule_time[key], key, index) }"
+        v-model="school.schedule_time[key]"/>
       </div>
     </div>
   </div>
@@ -57,9 +19,40 @@
 <script>
 export default {
   name: 'DailyTime',
-  data () {
+  props: ['school', 'timeCheck'],
+  data() {
     return {
-      time: []
+      check: true
+    }
+  },
+  methods: {
+    checkTime(time, key, index) {
+      if(index == 0) {
+        this.check = true;
+      }
+      time = time.replace("：", ":");
+      this.school.schedule_time[key] = time;
+      let regex = new RegExp("^[0-9]{1,2}[\:]{1}[0-9]{1,2}$");
+      if(regex.test(time)) {
+        let [hour, mine] = time.split(":");
+        hour = parseInt(hour);
+        mine = parseInt(mine);
+        if(hour >= 0 && hour <=23 && mine >= 0 && mine <=59) {
+          this.check = true;
+          return true;
+        } else {
+          this.check = false;
+          return false;
+        }
+      } else {
+        this.check = false;
+        return false;
+      }
+    }
+  },
+  watch: {
+    check() {
+      this.$emit('changeTimeCheck', this.check);
     }
   }
 }
@@ -98,7 +91,14 @@ export default {
   padding: 4px 8px;
   font-size: 16px;
   border-radius: 4px;
+  color: rgb(128, 128, 128);
   background: rgb(238, 238, 238);
   font-family: "Segoe UI", Arial, "Microsoft Yahei", sans-serif;
+  transition: all 300ms;
+}
+
+.error {
+  color: rgb(255, 255, 255) !important;
+  background: rgb(224, 14, 14) !important;
 }
 </style>

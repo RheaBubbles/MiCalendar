@@ -4,7 +4,7 @@
       <div class="container">
         <img src="./assets/icon128.png" id="logo">
         <div id="label">MiCalendar</div>
-        <div id="export">开始导出</div>
+        <div id="export" v-on:click="outPut()">开始导出</div>
       </div>
     </div>
     <div id="body">
@@ -12,13 +12,13 @@
         <div class="col">
           <week/>
           <div id="btn-group">
-            <div v-on:click="changeWeek(1)">周一</div>
-            <div v-on:click="changeWeek(2)">周二</div>
-            <div v-on:click="changeWeek(3)">周三</div>
-            <div v-on:click="changeWeek(4)">周四</div>
-            <div v-on:click="changeWeek(5)">周五</div>
-            <div v-on:click="changeWeek(6)">周六</div>
-            <div v-on:click="changeWeek(7)">周日</div>
+            <div v-on:click="changeWeek(1)" v-bind:class="{ now: week == 1 }">周一</div>
+            <div v-on:click="changeWeek(2)" v-bind:class="{ now: week == 2 }">周二</div>
+            <div v-on:click="changeWeek(3)" v-bind:class="{ now: week == 3 }">周三</div>
+            <div v-on:click="changeWeek(4)" v-bind:class="{ now: week == 4 }">周四</div>
+            <div v-on:click="changeWeek(5)" v-bind:class="{ now: week == 5 }">周五</div>
+            <div v-on:click="changeWeek(6)" v-bind:class="{ now: week == 6 }">周六</div>
+            <div v-on:click="changeWeek(7)" v-bind:class="{ now: week == 7 }">周日</div>
           </div>
           <div class="interval">1 - 2</div>
           <course
@@ -58,9 +58,10 @@
             />
         </div>
         <div class="col">
-          <first-day/>
-          <daily-time/>
-          <parse-info/>
+          <error v-if="error.length != 0" v-bind:error="error"/>
+          <first-day v-bind:firstDay="firstDay"/>
+          <daily-time v-bind:school="school" v-on:changeTimeCheck="(check) => { this.timeCheck = check }"/>
+          <parse-info v-bind:school="school"/>
           <img src="https://i.loli.net/2019/04/19/5cb97f8a17d28.jpg">
         </div>
       </div>
@@ -71,6 +72,7 @@
 <script>
 import Course from './Course'
 import Week from './Week'
+import Error from './Error'
 import FirstDay from './FirstDay'
 import DailyTime from './DailyTime'
 import ParseInfo from './ParseInfo'
@@ -79,6 +81,7 @@ export default {
   components: {
     Course,
     Week,
+    Error,
     FirstDay,
     DailyTime,
     ParseInfo
@@ -103,7 +106,15 @@ export default {
         [],
         [],
         []
-      ]
+      ],
+      school: null,
+      firstDay: {
+        year: '',
+        month: '',
+        day: ''
+      },
+      timeCheck: true,
+      error: ""
     }
   },
   methods: {
@@ -119,6 +130,22 @@ export default {
       }
       this.starts[start] =  temp;
       return temp;
+    },
+    outPut() {
+      if(this.error.length == 0) {
+        let date = new Date(this.firstDay.year, this.firstDay.month, this.firstDay.day);
+        if(date.getDate() == this.firstDay.day) {
+          if(this.timeCheck) {
+            
+          } else {
+            alert("课程开始时间为填完，请完成开始时间的填写。");
+          }
+        } else {
+          alert("开始日期填写错误，请填写合法的日期。");
+        }
+      } else {
+        alert("解析代码出现错误，错误信息为：" + this.error + "，请及时联系我们。");
+      }
     }
   },
   mounted() {
@@ -128,6 +155,12 @@ export default {
       // in chrome
       chrome.storage.local.get(['courses'], function(result) {
         that.$data.courses = result.courses;
+      });
+      chrome.storage.local.get(['school'], function(result) {
+        that.$data.school = result.school;
+      });
+      chrome.storage.local.get(['error'], function(result) {
+        that.$data.error = result.error;
       });
     } else {
       that.$data.courses = [
@@ -171,6 +204,27 @@ export default {
           {"name":"高级语言程序设计II(实验)","teacher":"赵玲玲","room":"B8502","weeks":[5,6,7,8,9,10],"start":5,"end":6}
         ]
       ];
+      that.$data.school = {
+        "name": "哈尔滨工业大学",
+        "author": "YuMi",
+        "email": "augbubbles@foxmail.com",
+        "commit_date": "2019/04/22",
+        "max_weeks": 19,
+        "schedule_time": {
+          "1": "08:00",
+          "2": "08:55",
+          "3": "10:00",
+          "4": "10:55",
+          "5": "13:45",
+          "6": "14:40",
+          "7": "15:45",
+          "8": "16:40",
+          "9": "18:30",
+          "10": "19:25",
+          "11": "20:30",
+          "12": "21:25"
+        }
+      };
     }
     this.$data.week = 1;
   }
@@ -272,15 +326,17 @@ export default {
 #btn-group > * {
   flex-grow: 1;
   text-align: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 6px;
+  padding-bottom: 4px;
   cursor: pointer;
-  border-radius: 4px;
+  /* border-radius: 4px; */
+  border-bottom: solid rgba(226, 226, 226, 0) 3px;
   transition: all 300ms;
 }
 
 #btn-group > *:hover {
   background: rgb(226, 226, 226);
+  border-bottom: solid rgba(226, 226, 226) 3px;
 }
 
 .interval {
@@ -290,6 +346,10 @@ export default {
   font-weight: bolder;
   font-size: 18px;
   background: rgb(226, 226, 226);
+}
+
+.now {
+    border-bottom: solid rgb(245, 36, 36) 3px !important;
 }
 </style>
 

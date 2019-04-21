@@ -21,7 +21,7 @@ export default {
   props: ['course'],
   data() {
     return {
-      weeks: [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 ]
+      weeks: 20
     }
   },
   methods: {
@@ -35,34 +35,42 @@ export default {
 <style scoped>
 #title {
   font-size: 18px;
+  font-weight: bold;
+  color: rgb(110, 110, 110);
 }
 
 #desc {
   margin-top: 4px;
   font-size: 16px;
+  color: rgb(141, 141, 141);
 }
 
 .weeks {
   display: flex;
   flex-wrap: wrap;
+  width: 360px;
 }
 
 .week {
-  cursor: pointer;
+  /* cursor: pointer; */
   width: 24px;
   height: 24px;
   font-size: 14px;
   line-height: 24px;
   margin-top: 12px;
-  margin-right: 11px;
+  margin-right: 12px;
   border-radius: 50%;
   text-align: center;
   color: rgb(153, 153, 153);
   background: rgb(235, 235, 235);
 }
 
+.week:last-child {
+  margin-right: 0px;
+}
+
 .have {
   color: rgb(255, 255, 255);
-  background: rgb(255, 18, 18);
+  background: rgb(255, 106, 106);
 }
 </style>

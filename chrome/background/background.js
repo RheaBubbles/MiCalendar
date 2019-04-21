@@ -40,7 +40,10 @@ chrome.runtime.onMessage.addListener(
       chrome.storage.local.set({'schools': schools});
       sendResponse(schools);
     } else if (request.msg == "openPanelPage") {
-      chrome.storage.local.set({'courses': request.courses }, function() {
+      chrome.storage.local.set({
+        'courses': request.courses
+        'error':  request.error
+      }, function() {
         chrome.tabs.create({
           url: chrome.runtime.getURL('panel/panel.html'),
           active: true
