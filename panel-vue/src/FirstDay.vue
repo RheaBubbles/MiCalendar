@@ -1,24 +1,25 @@
 <template>
   <div class="card">
-    <div id="title">第一周的开始日期</div>
+    <div id="title">选择第一周的开始日期</div>
     <input
       id="year"
       type="text"
       class="input"
       v-bind:class="{ error: !checkYear() }"
-      v-model="firstDay.year">
+      v-model="firstDay.year">年
     <input
       id="month"
       type="text"
       class="input"
       v-bind:class="{ error: !checkMonth() }"
-      v-model="firstDay.month">
+      v-model="firstDay.month">月
     <input
       id="day"
       type="text"
       class="input"
       v-bind:class="{ error: !checkDay() }"
-      v-model="firstDay.day">
+      v-model="firstDay.day"
+      placeholder="请输入">日
   </div>
 </template>
 
@@ -30,16 +31,13 @@ export default {
     let date = new Date();
     this.firstDay.year = date.getFullYear();
     this.firstDay.month = date.getMonth() + 1;
-    this.firstDay.day = date.getDate();
   },
   methods: {
     checkYear() {
       let regex = new RegExp("^[0-9]{4}$");
       if(regex.test(this.firstDay.year)) {
-        console.log(1);
         return true;
       } else {
-        console.log(2);
         return false;
       }
     },
@@ -93,15 +91,26 @@ export default {
   transition: all 300ms;
 }
 
+.input::placeholder {
+  font-size: 14px;
+  background: rgb(238, 238, 238);
+  transition: all 300ms;
+}
+
 #year {
-  width: 100px;
+  width: 60px;
 }
 
 #month, #day {
-  width: 50px;
+  width: 60px;
 }
 
 .error {
+  color: rgb(255, 255, 255) !important;
+  background: rgb(224, 14, 14) !important;
+}
+
+.error::placeholder {
   color: rgb(255, 255, 255) !important;
   background: rgb(224, 14, 14) !important;
 }

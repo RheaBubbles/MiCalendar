@@ -60,12 +60,13 @@
         <div class="col">
           <error v-if="error.length != 0" v-bind:error="error"/>
           <first-day v-bind:firstDay="firstDay"/>
-          <daily-time v-bind:school="school" v-on:changeTimeCheck="(check) => { this.timeCheck = check }"/>
-          <parse-info v-bind:school="school"/>
+          <daily-time v-if="school" v-bind:school="school" v-on:changeTimeCheck="(check) => { this.timeCheck = check }"/>
+          <parse-info v-if="school" v-bind:school="school"/>
           <img src="https://i.loli.net/2019/04/19/5cb97f8a17d28.jpg">
         </div>
       </div>
     </div>
+    <a id="download"></a>
   </div>
 </template>
 
@@ -76,6 +77,7 @@ import Error from './Error'
 import FirstDay from './FirstDay'
 import DailyTime from './DailyTime'
 import ParseInfo from './ParseInfo'
+import tools from './tools'
 export default {
   name: 'app',
   components: {
@@ -88,7 +90,6 @@ export default {
   },
   data () {
     return {
-      // msg: 'Welcome to Your Vue.js App'
       week: 0,
       courses: [
         [],
@@ -123,20 +124,34 @@ export default {
     },
     startOfCourse(start) {
       let temp = [];
-      for(let i = 0; i < this.courses[this.week - 1].length; i++) {
-        if(this.courses[this.week - 1][i].start == start * 2 + 1) {
-          temp.push(this.courses[this.week - 1][i]);
+      if(this.week != 0) {
+        for(let i = 0; i < this.courses[this.week - 1].length; i++) {
+          if(this.courses[this.week - 1][i].start == start * 2 + 1) {
+            temp.push(this.courses[this.week - 1][i]);
+          }
         }
+        this.starts[start] = temp;
       }
-      this.starts[start] =  temp;
       return temp;
     },
     outPut() {
       if(this.error.length == 0) {
         let date = new Date(this.firstDay.year, this.firstDay.month, this.firstDay.day);
+        console.log(date);
         if(date.getDate() == this.firstDay.day) {
           if(this.timeCheck) {
-            
+            let url = window.webkitURL || window.URL || window.mozURL || window.msURL;
+            let a = document.getElementById('download');
+            a.download = `MiCalendar-${Date.parse(new Date())}.ics`;
+            let content = tools(this.courses, this.school, this.firstDay);
+            // console.log(content);
+            let blob = new Blob(
+              [ content ],
+              { type : "text/plain;charset=utf-8" }
+            );
+            a.href = url.createObjectURL(blob);
+            a.dataset.downloadurl = ['ics', a.download, a.href].join(':');
+            a.click();
           } else {
             alert("课程开始时间为填完，请完成开始时间的填写。");
           }
@@ -211,18 +226,18 @@ export default {
         "commit_date": "2019/04/22",
         "max_weeks": 19,
         "schedule_time": {
-          "1": "08:00",
-          "2": "08:55",
-          "3": "10:00",
-          "4": "10:55",
-          "5": "13:45",
-          "6": "14:40",
-          "7": "15:45",
-          "8": "16:40",
-          "9": "18:30",
-          "10": "19:25",
-          "11": "20:30",
-          "12": "21:25"
+          "1": ["08:00", "08:45"],
+          "2": ["08:55", "09:45"],
+          "3": ["10:00", "10:45"],
+          "4": ["10:55", "11:45"],
+          "5": ["13:45", "14:30"],
+          "6": ["14:40", "15:30"],
+          "7": ["15:45", "16:30"],
+          "8": ["16:40", "17:30"],
+          "9": ["18:30", "19:15"],
+          "10": ["19:25", "20:15"],
+          "11": ["20:30", "21:15"],
+          "12": ["21:25", "22:15"]
         }
       };
     }
@@ -361,6 +376,10 @@ export default {
 /* 滚动槽 */
 ::-webkit-scrollbar-track {
   border-radius:0px;
+}
+
+#download {
+  display: hidden;
 }
 </style>
 

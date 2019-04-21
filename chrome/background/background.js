@@ -41,13 +41,13 @@ chrome.runtime.onMessage.addListener(
       sendResponse(schools);
     } else if (request.msg == "openPanelPage") {
       chrome.storage.local.set({
-        'courses': request.courses
+        'courses': request.courses,
         'error':  request.error
       }, function() {
         chrome.tabs.create({
           url: chrome.runtime.getURL('panel/panel.html'),
           active: true
         });
-      })
+      });
     }
  });

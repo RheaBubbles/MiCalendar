@@ -9,8 +9,8 @@
         <div>{{ key }}</div>
         <input
         type="text"
-        v-bind:class="{ error: !checkTime(school.schedule_time[key], key, index) }"
-        v-model="school.schedule_time[key]"/>
+        v-bind:class="{ error: !checkTime(school.schedule_time[key][0], key, index) }"
+        v-model="school.schedule_time[key][0]"/>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
         this.check = true;
       }
       time = time.replace("：", ":");
-      this.school.schedule_time[key] = time;
+      this.school.schedule_time[key][0] = time;
       let regex = new RegExp("^[0-9]{1,2}[\:]{1}[0-9]{1,2}$");
       if(regex.test(time)) {
         let [hour, mine] = time.split(":");

@@ -15,7 +15,7 @@ if(iframe.length > 0) {
     container = container[0];
     let courses = HitParser(container.children[0]);
     // console.log(JSON.stringify(courses));
-    console.log(courses);
+    // console.log(courses);
     window.courses = courses;
     // 通知background
     chrome.runtime.sendMessage({
