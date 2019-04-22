@@ -23,5 +23,11 @@
     "persistent": false
   },
   "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup/loadPopupHtml.js"]
+    }
+  ],
   "manifest_version": 2
 }

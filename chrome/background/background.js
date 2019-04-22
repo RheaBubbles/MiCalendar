@@ -4,23 +4,23 @@ chrome.runtime.onInstalled.addListener(
   function() {
     // load the parses to storage when it is installed
     chrome.runtime.getPackageDirectoryEntry(function(root) {
-      console.log(root);
+      // console.log(root);
       root.getDirectory('parses', {}, function(dir) {
-        console.log(dir);
+        // console.log(dir);
         let dirReader = dir.createReader();
         dirReader.readEntries(function(results) {
           // console.log(results);
           for(let school_dir of results) {
-            console.log(school_dir);
+            // console.log(school_dir);
             let info;
             school_dir.getFile('info.json', {}, function(fe) {
               fe.file(function(file) {
-                console.log(file);
+                // console.log(file);
                 let reader = new FileReader();
                 reader.onload = (event) => {
-                  console.log(event.target.result);
+                  // console.log(event.target.result);
                   info = JSON.parse(event.target.result);
-                  console.log(info);
+                  // console.log(info);
                   schools.push(info);
                 };
                 reader.readAsText(file);
@@ -48,6 +48,15 @@ chrome.runtime.onMessage.addListener(
           url: chrome.runtime.getURL('panel/panel.html'),
           active: true
         });
+      });
+    } else if(request.msg == "checkPopup") {
+      chrome.storage.local.get(['school'], function(result) {
+        if(typeof result.school == 'undefined') {
+          // no chosen
+          chrome.browserAction.setPopup({popup: `popup/popup.html`});
+        } else {
+          chrome.browserAction.setPopup({popup: `parses/${ result.school.folder_name }/popup.html`});
+        }
       });
     }
  });

@@ -73,18 +73,30 @@ function HitParser(table) {
   return courses;
 }
 
+function isWeeksLine(line) {
+  if(line.indexOf(']周') != -1) {
+    return true;
+  } else if(line.indexOf(']单周') != -1) {
+    return true;
+  } else if(line.indexOf(']双周') != -1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // Simplify
 // 将特殊的三行课程情况简化为两行
 function Simplify(row) {
   let res = [];
   for(let i = 0; i < row.length; i++) {
     if(i + 1 < row.length) {
-      if(row[i].indexOf('周') == -1 && row[i + 1].indexOf('周') == -1) {
+      if(!isWeeksLine(row[i]) && !isWeeksLine(row[i + 1])) {
         res[res.length - 1] += row[i];
       } else {
         res.push(row[i]);
       }
-    } else if(i == row.length - 1 && row[i].indexOf('周') == -1) {
+    } else if(i == row.length - 1 && !isWeeksLine(row[i])) {
       res[res.length - 1] += row[i];
     } else {
       res.push(row[i]);

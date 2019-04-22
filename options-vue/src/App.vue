@@ -58,14 +58,8 @@ export default {
     let that = this;
     if(typeof chrome.storage != "undefined") {
       // in chrome
-      chrome.storage.local.get(['schools'], function(result) {
-        if(typeof result.schools == "undefined") {
-          chrome.runtime.sendMessage({ msg: "initSchools" }, function(response) {
-            that.$data.slist = response;
-          });
-        } else {
-          that.$data.slist = result.schools;
-        }
+      chrome.runtime.sendMessage({ msg: "initSchools" }, function(response) {
+        that.$data.slist = response;
       });
     } else {
       // in dev
@@ -107,8 +101,10 @@ export default {
       if(this.chosen) {
         if(typeof chrome.storage != "undefined") {
           // in chrome
-          chrome.storage.local.set({'school': this.chosen}, function() {
-            // console.log('Value is set to ' + value);
+          let chosen = this.chosen;
+          chrome.storage.local.set({'school': chosen}, function() {
+            chrome.browserAction.setPopup({popup: `parses/${ chosen.folder_name }/popup.html`});
+            alert(`选择学校成功：${ chosen.name }`);
           });
         } else {
           // in dev
@@ -225,7 +221,7 @@ export default {
 }
 
 #school-list {
-  height: 600px;
+  height: 400px;
   overflow-y: scroll;
   /* margin-top: 16px; */
   margin-bottom: 24px;
@@ -251,16 +247,16 @@ export default {
 
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
-  width:8px;
+  width: 6px;
 }
 /* 滚动槽 */
 ::-webkit-scrollbar-track {
-  border-radius:10px;
+  border-radius: 10px;
 }
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
   border-radius:10px;
-  background:rgb(232, 18, 36);
+  background:rgb(179, 179, 179);
 }
 
 /* 滚动条整体部分，可以设置宽度啥的 */
