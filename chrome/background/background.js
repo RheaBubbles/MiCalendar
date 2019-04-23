@@ -37,8 +37,12 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log(request);
     if (request.msg == "initSchools"){
-      chrome.storage.local.set({'schools': schools});
-      sendResponse(schools);
+      if(schools.length > 0) {
+        chrome.storage.local.set({'schools': schools});
+        sendResponse(schools);
+      } else {
+        sendResponse(schools);
+      }
     } else if (request.msg == "openPanelPage") {
       chrome.storage.local.set({
         'courses': request.courses,

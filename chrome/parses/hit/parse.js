@@ -27,7 +27,7 @@ if(iframe.length > 0) {
     console.log("No Container.");
     chrome.runtime.sendMessage({
       msg: "openPanelPage",
-      courses: [],
+      courses: [[],[],[],[],[],[],[]],
       error: "No Container."
     });
   }
@@ -35,7 +35,7 @@ if(iframe.length > 0) {
   console.log("No iframe element.");
   chrome.runtime.sendMessage({
     msg: "openPanelPage",
-    courses: [],
+    courses: [[],[],[],[],[],[],[]],
     error: "No iframe element."
   });
 }

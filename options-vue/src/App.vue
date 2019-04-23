@@ -59,7 +59,13 @@ export default {
     if(typeof chrome.storage != "undefined") {
       // in chrome
       chrome.runtime.sendMessage({ msg: "initSchools" }, function(response) {
-        that.$data.slist = response;
+        if(response.length > 0) {
+          that.$data.slist = response;
+        } else {
+          chrome.storage.local.get(['schools'], function(result) {
+            that.$data.slist = result.schools;
+          });
+        }
       });
     } else {
       // in dev

@@ -1,6 +1,7 @@
 // check the school is chosen
 chrome.storage.local.get(['school'], function(result) {
   let btn = document.getElementById("btn");
+  // alert(JSON.stringify(result.school));
   if(typeof result.school == 'undefined') {
     // no chosen
     btn.onclick = (element) => {
